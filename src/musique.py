@@ -1,7 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-class Musique():
+class Musique:
 
     def __init__(self, id, sp=None):
         self.id = id
@@ -13,7 +13,6 @@ class Musique():
         self.duree_ms = self.info['duration_ms']
         self.popularity = self.info['popularity']
         self.type = self.info['type']
-
     def get_info(self):
         return {
             'titre': self.titre,

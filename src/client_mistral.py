@@ -8,7 +8,8 @@ print(api_key)
 
 client = Mistral(api_key=api_key)
 
-def generate_text(prompt: str) -> str:
+
+def llm_trouve_similaires(musiques,prompt):
     chat_response = client.chat.complete(
     model = "mistral-medium-latest",
     messages = [
@@ -20,7 +21,3 @@ def generate_text(prompt: str) -> str:
     )
     return chat_response.choices[0].message.content
 
-if __name__ == "__main__":
-    prompt = "Write a short poem about the sea."
-    response = generate_text(prompt)
-    print(response)
