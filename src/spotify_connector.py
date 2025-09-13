@@ -29,6 +29,7 @@ def create_playlist(playlist_name: str, public: bool = False, description: str =
     }
 
 
+@mcp.tool
 def add2playlist(song_query: str, playlist_query: str, allow_duplicates: bool = True, market: Optional[str] = "from_token") -> Dict[str, Any]:
     """
     Find best match for 'song_query' and add it to YOUR playlist whose name contains 'playlist_query'.
@@ -48,7 +49,7 @@ def add2playlist(song_query: str, playlist_query: str, allow_duplicates: bool = 
                 return pl["id"]
         return None
     
-    
+
     song_id = _find_song_id(song_query, market=market)
     if not song_id:
         return {"status": "not_found", "entity": "track", "query": song_query}
