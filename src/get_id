@@ -1,0 +1,10 @@
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+
+
+def search_id(query, type = 'track'):
+    sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
+    results = sp.search(q = query, limit=1, type = type)
+    id = results[type + 's']['items'][0]['id']
+    return id
