@@ -37,15 +37,23 @@ class Playlist():
         self.eternal_url = playlist["external_urls"]["spotify"]
         self.id = playlist["id"]
         self.name = playlist["name"]
-
+        self.track_list = []
+        
     def get_tracks(self):
         track_list = [
-            Musique(i["track"]["id"]) 
+            Musique(i["track"]["id"],sp=sp) 
             for i in sp.playlist_items(self.id).get("items",[])
         ]
         self.track_list = track_list
         return self.track_list
     
+    def get_tracklist_infos(self):
+        if self.track_list:
+            return [music.get_info() for music in self.track_list]
+        else:
+            self.track_list = self.get_tracks()
+            return [music.get_info() for music in self.track_list]
+        
     def pr(self):
         print(self.eternal_url)
         print(self.name)
@@ -86,11 +94,11 @@ def get_last_listened_playlist(limit_plays = 100):
             return Playlist(ctx["external_urls"]["spotify"])
     return None
 
-"""for i in get_playlist_list():
-    if i.name == "Rap lyrique":
-        print("")
-    
-get_last_listened_playlist().get_tracks()"""
+"""or i in get_playlist_list():
+    if i.name == "Rap lyrique ":
+        print(" jn")
+        i.get_tracks()"""
+
 
 
 

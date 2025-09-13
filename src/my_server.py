@@ -12,12 +12,9 @@ def greet(name: str) -> str:
 def tracklist_playlist(name: str):
     "gives the tracklist of the playlist that has the name <name>"
     lists = get_playlist_list()
-    print(name)
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     for playlist in lists:
-        print(playlist.name)
         if playlist.name.lower().strip() == name.lower().strip():
-            return [song.get_titre() for song in playlist.get_tracks()]
+            return playlist.get_tracklist_infos()
     
 if __name__ == "__main__":
     mcp.run()

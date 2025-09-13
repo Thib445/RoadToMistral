@@ -19,6 +19,8 @@ class Musique():
             'titre': self.titre,
             'artiste': self.artiste,
             'album': self.album,
+            'duration_ms':self.duree_ms,
+            'popularity':self.popularity
         }
     
     def get_popularity(self):
