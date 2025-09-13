@@ -1,2 +1,4 @@
 .env
 server_mcp.egg-info
+*.cache
+*.pyc
