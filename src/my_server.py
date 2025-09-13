@@ -1,3 +1,4 @@
+import spotipy
 from fastmcp import FastMCP
 from Playlistlib import *
 from Playlistlib import _find_my_playlist_id
@@ -6,20 +7,12 @@ from musique import _find_song_id
 from typing import Optional, Dict, Any
 from spotify_infos import sp, me  # sp = Spotipy auth; me = current_user
 import time, sys
-
-mcp = FastMCP("My MCP Server")
-print(f"[MCP boot] spotify_connector starting at {time.strftime('%H:%M:%S')} | file={__file__}", file=sys.stderr)
-import musique
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-from spotify_infos import sp, me
-from musique import Musique
 from datetime import datetime, timedelta
 import random
 from client_mistral import llm_trouve_similaires
 
-
-
+mcp = FastMCP("My MCP Server")
+print(f"[MCP boot] spotify_connector starting at {time.strftime('%H:%M:%S')} | file={__file__}", file=sys.stderr)
 
 mcp = FastMCP("Spotify Manager")
 
@@ -41,9 +34,6 @@ def musiques_derniere_semaine(username: str) -> list:
     toutes = musiques + liste_musiques_similaires
     random.shuffle(toutes)
     return toutes
-
-
-
 
 @mcp.tool
 def getplaylists(limit):
