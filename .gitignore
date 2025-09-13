@@ -2,3 +2,4 @@
 server_mcp.egg-info.*
 *.pyc
 *.txt
+src/test_spotipy.ipynb

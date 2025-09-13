@@ -13,6 +13,7 @@ dependencies = [
     # "sqlalchemy>=2.0.25",
     "fastapi>=0.116.1",
     "fastmcp>=2.12.3",
+    "flask>=3.1.2",
     "ipykernel>=6.30.1",
     "loadenv>=0.1.1",
     "mistralai>=1.9.10",
