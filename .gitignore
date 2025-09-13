@@ -2,3 +2,6 @@
 server_mcp.egg-info
 *.cache
 *.pyc
+server_mcp.egg-info.*
+*.pyc
+*.txt
