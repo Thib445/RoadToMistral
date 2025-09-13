@@ -25,13 +25,4 @@ sp = Spotify(auth_manager=SpotifyOAuth(
 me = sp.current_user()
 print("Logged in as:", me["display_name"], f"({me['id']})")
 
-playlist = sp.user_playlist_create(
-    user=me["id"],
-    name="Mood2Music - Demo",
-    public=False,
-    description="Playlist generated during hackathon"
-)
-print("Playlist:", playlist["external_urls"]["spotify"])
 
-sp.playlist_add_items(playlist["id"], ["spotify:track:4uLU6hMCjMI75M1A2tKUQC"])
-print("Added one track.")

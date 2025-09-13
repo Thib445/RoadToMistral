@@ -13,7 +13,6 @@ class Musique:
         self.duree_ms = self.info['duration_ms']
         self.popularity = self.info['popularity']
         self.type = self.info['type']
-
     def get_info(self):
         return {
             'titre': self.titre,
