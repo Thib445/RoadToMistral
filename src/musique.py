@@ -1,7 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-class Musique():
+class Musique:
 
     def __init__(self, id, sp=None):
         self.id = id
