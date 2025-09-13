@@ -6,8 +6,6 @@ mcp = FastMCP("My MCP Server")
 def greet(name: str) -> str:
     return f"Hello, {name}!"
 
-@mcp.tool
-def getPlaylist():
     
 if __name__ == "__main__":
     mcp.run()

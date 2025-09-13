@@ -31,10 +31,11 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
 ))
 
 class Playlist():
-    def __init__(self,dico):
-        self.eternal_url = dico["external_urls"]["spotify"]
-        self.id = dico["id"]
-        self.name = dico["name"]
+    def __init__(self,id):
+        playlist = sp.playlist(id)
+        self.eternal_url = playlist["external_urls"]["spotify"]
+        self.id = playlist["id"]
+        self.name = playlist["name"]
 
     def get_tracks(self):
         return 0
@@ -65,18 +66,18 @@ def get_playlist_list():
     current_user_playlst = sp.current_user_playlists(limit=50,offset=0).get("items",[])
     if current_user_playlst != []:
         for playlist in current_user_playlst:
-            currentUserPlaylists.append(Playlist(playlist))
+            currentUserPlaylists.append(Playlist(playlist["id"]))
     return currentUserPlaylists
 
 def get_last_listened_playlist(limit_plays = 100):
     history = sp.current_user_recently_played(limit=min(50, max(1, limit_plays)))
     for item in history.get("items", []):
         ctx = item.get("context")
-        print(ctx)
         if not ctx:
             continue
         if ctx.get("type") == "playlist" and ctx.get("uri"):
-            return Playlist(sp.playlist(ctx["external_urls"]["spotify"]))
+            
+            return Playlist(ctx["external_urls"]["spotify"])
     return None
 
 get_last_listened_playlist().pr()
