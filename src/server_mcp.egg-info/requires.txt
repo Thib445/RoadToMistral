@@ -1,4 +1,8 @@
 dotenv>=0.9.9
 fastmcp>=2.12.3
+<<<<<<< HEAD
+=======
+loadenv>=0.1.1
+>>>>>>> main
 mistralai>=1.9.10
 spotipy>=2.25.1
