@@ -1,4 +1,5 @@
 from fastmcp import FastMCP
+import spotify_infos
 
 mcp = FastMCP("My MCP Server")
 
@@ -9,7 +10,8 @@ mcp = FastMCP("My MCP Server")
 def get_artist_info(artist_name: str) -> dict:
     from artist import artist
     from get_id import search_id
-    artist_id = search_id(artist_name, type='artist')
+    sp = spotify_infos.sp
+    artist_id = search_id(artist_name, type='artist', sp=sp)
     if artist_id:
         info = artist(artist_id).get_info()
         return info
