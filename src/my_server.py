@@ -13,18 +13,7 @@ from client_mistral import llm_trouve_similaires
 
 
 mcp = FastMCP("Spotify Manager")
-"""
-@mcp.tool
-def derniere_musique(username: str) -> str:
-    # Récupère les 1 dernières musiques du user (nécessite l'API utilisateur, pas juste ClientCredentials)
-    recent = sp.current_user_recently_played(limit=1)
-    if recent == None:
-        return "Aucune musique récemment écoutée."
-    
-    last_music = musique(recent,sp)
-    titre = last_music.get_titre()
-    artiste = last_music.get_artiste()
-    return f"{titre} - {artiste}"""
+
 
 @mcp.tool
 def musiques_derniere_semaine(username: str) -> list:
@@ -43,7 +32,6 @@ def musiques_derniere_semaine(username: str) -> list:
     toutes = musiques + liste_musiques_similaires
     random.shuffle(toutes)
     return toutes
-
 
 
 
