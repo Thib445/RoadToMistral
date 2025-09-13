@@ -1,0 +1,36 @@
+{
+  "collaborative": false,
+  "description": "Playlist generated during hackathon",
+  "external_urls": {
+    "spotify": "https://open.spotify.com/playlist/32AtwhyYOMQ1n4Fa5LU3P7"
+  },
+  "href": "https://api.spotify.com/v1/playlists/32AtwhyYOMQ1n4Fa5LU3P7",
+  "id": "32AtwhyYOMQ1n4Fa5LU3P7",
+  "images": [
+    {
+      "height": null,
+      "url": "https://i.scdn.co/image/ab67616d00001e0215ebbedaacef61af244262a8",
+      "width": null
+    }
+  ],
+  "name": "Mood2Music - Demo",
+  "owner": {
+    "display_name": "Thibault M",
+    "external_urls": {
+      "spotify": "https://open.spotify.com/user/thibaultm2003"
+    },
+    "href": "https://api.spotify.com/v1/users/thibaultm2003",
+    "id": "thibaultm2003",
+    "type": "user",
+    "uri": "spotify:user:thibaultm2003"
+  },
+  "primary_color": null,
+  "public": true,
+  "snapshot_id": "AAAAAh83+0NYjdKheESsMj3hiRu5aIxa",
+  "tracks": {
+    "href": "https://api.spotify.com/v1/playlists/32AtwhyYOMQ1n4Fa5LU3P7/tracks",
+    "total": 1
+  },
+  "type": "playlist",
+  "uri": "spotify:playlist:32AtwhyYOMQ1n4Fa5LU3P7"
+}
