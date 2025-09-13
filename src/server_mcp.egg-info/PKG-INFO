@@ -5,3 +5,4 @@ Summary: Description courte de ton projet
 Author-email: Alexis Maes <alexis.maes@solutions.mistral.ai>
 Requires-Python: >=3.12
 Requires-Dist: fastmcp>=2.12.3
+Requires-Dist: spotipy>=2.25.1
