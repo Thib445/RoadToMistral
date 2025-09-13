@@ -1,5 +1,6 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from spotify_infos import sp, me  # sp = Spotipy auth; me = current_user
 
 class Musique():
 
@@ -40,3 +41,8 @@ class Musique():
     
     def get_artiste(self):
         return self.artiste
+    
+def _find_song_id(query, market = None):
+        res = sp.search(q=query, limit=1, type="track", market=market)
+        items = res.get("tracks", {}).get("items", []) or []
+        return items[0]["id"] if items else None
