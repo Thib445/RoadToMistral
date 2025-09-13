@@ -51,22 +51,32 @@ def tracklist_playlist(name: str):
 
 import time
 @mcp.tool("blind_test")
-def blind_test(track_id: str):
+def blind_test(query = None) :
     """
     Lance un blind test Spotify : joue un extrait de 10s d'un morceau choisi au hasard dans la piste donnée.
     Args:
         track_id (str): L’ID Spotify du morceau à utiliser.
     """
     # Récupère la durée du morceau
+    if query is None:
+        query = random_liked_track()
+    track_id = _find_song_id(query)
     track = sp.track(track_id)
     duration_ms = track["duration_ms"]
 
+    devices = sp.devices()["devices"]
+    print(devices)
+    print(len(devices))
+
+    device_id = devices[0]["id"]
+    print(device_id)
+    for d in range (len(devices)):
+        print(f"{d} - {devices[d]['name']} (id: {devices[d]['id']})")
     # Point de départ aléatoire (évite les 15 premières et 15 dernières secondes)
     start_ms = random.randint(15000, duration_ms - 15000)
 
     # Démarre la lecture au point choisi
-    sp.start_playback(uris=[track["uri"]], position_ms=start_ms)
-
+    lancer_musique(device_id,track_id, position_ms=start_ms)
     # Attend 10 secondes
     time.sleep(10)
 
