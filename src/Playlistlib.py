@@ -3,33 +3,8 @@ from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from musique import Musique
+from spotify_infos import sp, me  # sp = Spotipy auth; me = current_user
 
-# Load your .env file
-load_dotenv()
-scopes = (
-    "user-library-read "
-    "user-library-modify "
-    "user-read-recently-played "
-    "user-read-playback-state "
-    "user-modify-playback-state "
-    "user-read-currently-playing "
-    "playlist-read-private "
-    "playlist-read-collaborative "
-    "playlist-modify-public "
-    "playlist-modify-private "
-    "user-follow-read "
-    "user-follow-modify "
-    "user-top-read "
-    "ugc-image-upload"
-)
-
-# Authenticate with Spotify
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
-    client_id=os.getenv("SPOTIPY_CLIENT_ID"),
-    client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
-    redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
-    scope=scopes
-))
 
 class Playlist():
     def __init__(self,id):
@@ -94,6 +69,14 @@ def get_last_listened_playlist(limit_plays = 100):
             return Playlist(ctx["external_urls"]["spotify"])
     return None
 
+def _find_my_playlist_id(query):    
+    res = sp.current_user_playlists(limit=50)
+    for pl in res.get("items", []):
+        name = (pl.get("name") or "").lower()
+        if query.lower() in name and pl.get("owner", {}).get("id") == me["id"]:
+            return pl["id"]
+    return None
+    
 """or i in get_playlist_list():
     if i.name == "Rap lyrique ":
         print(" jn")
