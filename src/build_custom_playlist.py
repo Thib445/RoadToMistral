@@ -64,7 +64,7 @@ agent = client.beta.agents.create(
 def get_musics_from_query(features: str, k:int = 15) -> ListMusique:
     response  = client.beta.conversations.start(
         agent_id=agent.id,
-        inputs=f"Generate a list of {k} songs based on the following playlist features: {features}"
+        inputs=f"Generate a list of {k} different songs based on the following playlist features: {features}"
     )
 
     return get_structured_output(extract_answer(response))
