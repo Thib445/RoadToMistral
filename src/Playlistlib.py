@@ -43,25 +43,23 @@ class Playlist():
         print(self.eternal_url)
         print(self.name)
 
-def get_last_playlist(limit_plays: int = 50):
-    """
-    Returns (playlist_name, playlist_url, playlist_id) for the most recent playlist
-    found in your recently played items. Returns None if none found.
-    """
-    history = sp.current_user_recently_played(limit=min(50, max(1, limit_plays)))
-    for item in history.get("items", []):
-        ctx = item.get("context")
-        if not ctx:
-            continue
-        if ctx.get("type") == "playlist" and ctx.get("uri"):
-            # context URI looks like "spotify:playlist:<id>"
-            pl_id = ctx["uri"].split(":")[-1]
-            pl = sp.playlist(pl_id, fields="name,external_urls.spotify,id")
-            return pl["name"], pl["external_urls"]["spotify"], pl["id"]
-    return None
-
-import json
-
+    def getPlaylistDuration(self):
+        total_ms = 0
+        results = sp.playlist_items(self.id, fields="items.track.duration_ms,next", additional_types=["track"])
+        
+        while results:
+            for item in results["items"]:
+                track = item.get("track")
+                if track and track.get("duration_ms"):
+                    total_ms += track["duration_ms"]
+            
+            if results.get("next"):
+                results = sp.next(results)
+            else:
+                results = None
+                
+        self.duration = total_ms
+        
 def get_playlist_list():
     currentUserPlaylists = []
     current_user_playlst = sp.current_user_playlists(limit=50,offset=0).get("items",[])
@@ -70,7 +68,18 @@ def get_playlist_list():
             currentUserPlaylists.append(Playlist(playlist))
     return currentUserPlaylists
 
-get_playlist_list()[0].pr()
+def get_last_listened_playlist(limit_plays = 100):
+    history = sp.current_user_recently_played(limit=min(50, max(1, limit_plays)))
+    for item in history.get("items", []):
+        ctx = item.get("context")
+        print(ctx)
+        if not ctx:
+            continue
+        if ctx.get("type") == "playlist" and ctx.get("uri"):
+            return Playlist(sp.playlist(ctx["external_urls"]["spotify"]))
+    return None
+
+get_last_listened_playlist().pr()
 
 
 
