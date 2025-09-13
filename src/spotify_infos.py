@@ -59,3 +59,6 @@ sp = Spotify(auth_manager=SpotifyOAuth(
 ))
 
 me = sp.current_user()
+print("Logged in as:", me["display_name"], f"({me['id']})")
+
+
