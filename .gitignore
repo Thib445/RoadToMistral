@@ -1,5 +1,7 @@
 .env
 *.cache
 *.pyc
+*.txt
+src/test_spotipy.ipynb
 server_mcp.egg-info.*
 *.txt
