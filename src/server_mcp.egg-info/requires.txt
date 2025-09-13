@@ -1,2 +1,4 @@
 fastmcp>=2.12.3
+loadenv>=0.1.1
+mistralai>=1.9.10
 spotipy>=2.25.1
