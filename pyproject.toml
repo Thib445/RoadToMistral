@@ -7,11 +7,17 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "dotenv>=0.9.9",
     # Ajoute ici tes dépendances principales, par exemple :
     # "fastapi>=0.109.0",
     # "sqlalchemy>=2.0.25",
+    "fastapi>=0.116.1",
     "fastmcp>=2.12.3",
     "pydantic>=2.11.8",
+    "ipykernel>=6.30.1",
+    "loadenv>=0.1.1",
+    "mistralai>=1.9.10",
+    "spotipy>=2.25.1",
 ]
 
 [tool.setuptools.packages.find]
