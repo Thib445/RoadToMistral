@@ -75,9 +75,9 @@ class Playlist():
                 
         self.duration = total_ms
         
-def get_playlist_list()-> list[Playlist]:
+def get_playlist_list(limit = 50)-> list[Playlist]:
     currentUserPlaylists = []
-    current_user_playlst = sp.current_user_playlists(limit=50,offset=0).get("items",[])
+    current_user_playlst = sp.current_user_playlists(limit=limit,offset=0).get("items",[])
     if current_user_playlst != []:
         for playlist in current_user_playlst:
             currentUserPlaylists.append(Playlist(playlist["id"]))
