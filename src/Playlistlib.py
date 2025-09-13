@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+from musique import Musique
 
 # Load your .env file
 load_dotenv()
@@ -38,7 +39,12 @@ class Playlist():
         self.name = playlist["name"]
 
     def get_tracks(self):
-        return 0
+        track_list = [
+            Musique(i["track"]["id"]) 
+            for i in sp.playlist_items(self.id).get("items",[])
+        ]
+        self.track_list = track_list
+        return self.track_list
     
     def pr(self):
         print(self.eternal_url)
@@ -61,7 +67,7 @@ class Playlist():
                 
         self.duration = total_ms
         
-def get_playlist_list():
+def get_playlist_list()-> list[Playlist]:
     currentUserPlaylists = []
     current_user_playlst = sp.current_user_playlists(limit=50,offset=0).get("items",[])
     if current_user_playlst != []:
@@ -80,7 +86,11 @@ def get_last_listened_playlist(limit_plays = 100):
             return Playlist(ctx["external_urls"]["spotify"])
     return None
 
-get_last_listened_playlist().pr()
+"""for i in get_playlist_list():
+    if i.name == "Rap lyrique":
+        print("")
+    
+get_last_listened_playlist().get_tracks()"""
 
 
 
