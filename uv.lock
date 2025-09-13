@@ -316,6 +316,20 @@ wheels = [
 ]
 
 [[package]]
+name = "fastapi"
+version = "0.116.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "starlette" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/78/d7/6c8b3bfe33eeffa208183ec037fee0cce9f7f024089ab1c5d12ef04bd27c/fastapi-0.116.1.tar.gz", hash = "sha256:ed52cbf946abfd70c5a0dccb24673f0670deeb517a88b3544d03c2a6bf283143", size = 296485, upload-time = "2025-07-11T16:22:32.057Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/47/d63c60f59a59467fda0f93f46335c9d18526d7071f025cb5b89d5353ea42/fastapi-0.116.1-py3-none-any.whl", hash = "sha256:c46ac7c312df840f0c9e220f7964bada936781bc4e2e6eb71f1c4d7553786565", size = 95631, upload-time = "2025-07-11T16:22:30.485Z" },
+]
+
+[[package]]
 name = "fastmcp"
 version = "2.12.3"
 source = { registry = "https://pypi.org/simple" }
@@ -820,7 +834,7 @@ wheels = [
 
 [[package]]
 name = "pydantic"
-version = "2.11.8"
+version = "2.11.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-types" },
@@ -828,9 +842,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "typing-inspection" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ac/c0/1ff9b59cf6f54494cf3ae2b95f4e9cf3a4b10ca352dade98a94d30e8a62e/pydantic-2.11.8.tar.gz", hash = "sha256:3d080f4a3ac6bde98e959ba552124d46be9f565b7be67769e49fcb286bae1bfb", size = 788452, upload-time = "2025-09-13T01:39:32.577Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ff/5d/09a551ba512d7ca404d785072700d3f6727a02f6f3c24ecfd081c7cf0aa8/pydantic-2.11.9.tar.gz", hash = "sha256:6b8ffda597a14812a7975c90b82a8a2e777d9257aba3453f973acd3c032a18e2", size = 788495, upload-time = "2025-09-13T11:26:39.325Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/19/49/bdc01f684aff7070253fe32fb9c60788e70de6b8ec527eaebf96bdf1a76b/pydantic-2.11.8-py3-none-any.whl", hash = "sha256:830ec4cccc3cf21be1ef5aec1d3348a179c92a61a7dab0e59837f9cc9fa93351", size = 444830, upload-time = "2025-09-13T01:39:30.095Z" },
+    { url = "https://files.pythonhosted.org/packages/3e/d3/108f2006987c58e76691d5ae5d200dd3e0f532cb4e5fa3560751c3a1feba/pydantic-2.11.9-py3-none-any.whl", hash = "sha256:c42dd626f5cfc1c6950ce6205ea58c93efa406da65f479dcb4029d5934857da2", size = 444855, upload-time = "2025-09-13T11:26:36.909Z" },
 ]
 
 [package.optional-dependencies]
@@ -1199,11 +1213,9 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "dotenv" },
+    { name = "fastapi" },
     { name = "fastmcp" },
-<<<<<<< HEAD
-=======
     { name = "loadenv" },
->>>>>>> main
     { name = "mistralai" },
     { name = "spotipy" },
 ]
@@ -1220,11 +1232,9 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "dotenv", specifier = ">=0.9.9" },
+    { name = "fastapi", specifier = ">=0.116.1" },
     { name = "fastmcp", specifier = ">=2.12.3" },
-<<<<<<< HEAD
-=======
     { name = "loadenv", specifier = ">=0.1.1" },
->>>>>>> main
     { name = "mistralai", specifier = ">=1.9.10" },
     { name = "spotipy", specifier = ">=2.25.1" },
 ]
