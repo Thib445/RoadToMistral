@@ -11,6 +11,7 @@ dependencies = [
     # "fastapi>=0.109.0",
     # "sqlalchemy>=2.0.25",
     "fastmcp>=2.12.3",
+    "pydantic>=2.11.8",
 ]
 
 [tool.setuptools.packages.find]
