@@ -48,6 +48,34 @@ def tracklist_playlist(name: str):
     for playlist in lists:
         if playlist.name.lower().strip() == name.lower().strip():
             return playlist.get_tracklist_infos()
+        
+
+import time
+@mcp.tool("blind_test")
+def blind_test(track_id: str):
+    """
+    Lance un blind test Spotify : joue un extrait de 10s d'un morceau choisi au hasard dans la piste donnée.
+    Args:
+        track_id (str): L’ID Spotify du morceau à utiliser.
+    """
+    # Récupère la durée du morceau
+    track = sp.track(track_id)
+    duration_ms = track["duration_ms"]
+
+    # Point de départ aléatoire (évite les 15 premières et 15 dernières secondes)
+    start_ms = random.randint(15000, duration_ms - 15000)
+
+    # Démarre la lecture au point choisi
+    sp.start_playback(uris=[track["uri"]], position_ms=start_ms)
+
+    # Attend 10 secondes
+    time.sleep(10)
+
+    # Met en pause
+    sp.pause_playback()
+
+    return f"⏸️ Extrait terminé ! Devinez le titre du morceau ?"
+
 
 if __name__ == "__main__":
     mcp.run()
