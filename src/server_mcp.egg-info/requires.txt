@@ -1,1 +1,2 @@
+fastapi>=0.116.1
 fastmcp>=2.12.3

@@ -4,4 +4,5 @@ Version: 0.1.0
 Summary: Description courte de ton projet
 Author-email: Alexis Maes <alexis.maes@solutions.mistral.ai>
 Requires-Python: >=3.12
+Requires-Dist: fastapi>=0.116.1
 Requires-Dist: fastmcp>=2.12.3
