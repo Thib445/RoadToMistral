@@ -1,18 +1,13 @@
-import spotipy
 from fastmcp import FastMCP
-from Playlistlib import *
-from Playlistlib import _find_my_playlist_id
-from musique import *
-from musique import _find_song_id
+
+from Playlistlib import _find_my_playlist_id, get_playlist_list
+from musique import _find_song_id, random_liked_track, lancer_musique
 from typing import Optional, Dict, Any
-from spotify_infos import sp, me  # sp = Spotipy auth; me = current_user
+from spotify_infos import sp, me 
 import time, sys
 from datetime import datetime, timedelta
 import random
 from client_mistral import llm_trouve_similaires
-
-mcp = FastMCP("My MCP Server")
-print(f"[MCP boot] spotify_connector starting at {time.strftime('%H:%M:%S')} | file={__file__}", file=sys.stderr)
 
 mcp = FastMCP("Spotify Manager")
 
@@ -50,40 +45,40 @@ def tracklist_playlist(name: str):
         
 
 import time
+
+BLIND_TEST_INSTRUCTION_TEMPLATE="""
+You are organising a blind test for the user. You juste ran the music and you must ask the user to guess the title and artist of the music. 
+The we answer is {answer} but you must not tell him unless he asks you to.
+write a good question to the user to make him guess the title and artist of the music.
+"""
 @mcp.tool("blind_test")
-def blind_test(query = None) :
+def blind_test() :
     """
     Lance un blind test Spotify : joue un extrait de 10s d'un morceau choisi au hasard dans la piste donnée.
     Args:
         track_id (str): L’ID Spotify du morceau à utiliser.
     """
     # Récupère la durée du morceau
-    if query is None:
-        query = random_liked_track()
+    query = random_liked_track()
     track_id = _find_song_id(query)
     track = sp.track(track_id)
     duration_ms = track["duration_ms"]
 
-    devices = sp.devices()["devices"]
-    print(devices)
-    print(len(devices))
+    #devices = sp.devices()["devices"]
 
-    device_id = devices[0]["id"]
-    print(device_id)
-    for d in range (len(devices)):
-        print(f"{d} - {devices[d]['name']} (id: {devices[d]['id']})")
+    #device_id = devices[0]["id"]
     # Point de départ aléatoire (évite les 15 premières et 15 dernières secondes)
     start_ms = random.randint(15000, duration_ms - 15000)
 
     # Démarre la lecture au point choisi
-    lancer_musique(device_id,track_id, position_ms=start_ms)
+    lancer_musique(track_id, position_ms=start_ms)
     # Attend 10 secondes
     time.sleep(10)
 
     # Met en pause
     sp.pause_playback()
 
-    return f"⏸️ Extrait terminé ! Devinez le titre du morceau ?"
+    return BLIND_TEST_INSTRUCTION_TEMPLATE.format(answer=query)
 
 
 @mcp.tool

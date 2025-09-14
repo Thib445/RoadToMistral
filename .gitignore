@@ -7,3 +7,5 @@ server_mcp.egg-info
 *.txt
 $.cpython-313.pyc
 
+uv.lock
+.cache

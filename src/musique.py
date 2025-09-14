@@ -48,16 +48,21 @@ def _find_song_id(query, market = None):
         return items[0]["id"] if items else None
 
 def random_liked_track():
-    # Récupère les 50 premières chansons likées (max par appel)
+    # Récupère les 50 premiers titres likés
     results = sp.current_user_saved_tracks(limit=50)
-    items = results["items"]
+    items = results.get("items", [])
 
     if not items:
         return "❌ Pas de titres likés trouvés."
 
     # Choisit une piste au hasard
-    track = Musique(random.choice(items)["id"]["track"]["id"])
-    return track.get_titre() + " - " + track.get_artiste()
+    track = random.choice(items)["track"]
 
-def lancer_musique(device_id,track_id, position_ms=0):
-    sp.start_playback(device_id=device_id,uris=[f"spotify:track:{track_id}"], position_ms=position_ms)
+    track_id = track["id"]
+    title = track["name"]
+    artist = track["artists"][0]["name"]
+
+    return f"{title} - {artist} ({track_id})"
+
+def lancer_musique(track_id, position_ms=0):
+    sp.start_playback(uris=[f"spotify:track:{track_id}"], position_ms=position_ms)
