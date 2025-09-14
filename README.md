@@ -1,228 +1,181 @@
-# RoadToMistral 🎵
+# RoadToMistral Music Tooling 🎵
 
-A powerful **Spotify Music Management System** built with **FastMCP** that integrates Spotify, Mistral AI, Genius, and Wikipedia APIs to provide intelligent music discovery, playlist management, and comprehensive music information.
+**An AI-powered Spotify assistant** that helps you discover music, manage playlists, and learn about songs using Mistral AI, Genius, and Wikipedia.
 
-## 🌟 Features
+## What This Does
 
-### 🎧 Music Management
-- **Playlist Operations**: Create, manage, and explore your Spotify playlists
-- **Track Discovery**: Find and add songs to playlists with intelligent search
-- **Music Playback**: Control Spotify playback directly from the application
-- **Blind Test Game**: Interactive music guessing game with random track snippets
+This tool connects to your Spotify account and uses AI to:
 
-### 🤖 AI-Powered Features
-- **Smart Recommendations**: Uses Mistral AI to find similar music based on your listening history
-- **Custom Playlist Generation**: AI-generated playlists based on mood, activity, or specific queries
-- **Intelligent Search**: Enhanced music discovery using AI-powered similarity matching
+- **Find similar music** to what you've been listening to
+- **Create smart playlists** based on your mood or requests
+- **Play music games** like blind tests
+- **Get detailed song info** including lyrics, artist stories, and background
+- **Manage your playlists** - add songs, create new ones, explore tracks
 
-### 📚 Rich Music Information
-- **Comprehensive Song Data**: Combines information from multiple sources
-- **Genius Integration**: Access lyrics, song meanings, and artist insights
-- **Wikipedia Integration**: Get detailed artist biographies and song background information
-- **Spotify Metadata**: Track popularity, duration, album information, and more
+## Key Features
 
-### 🔧 Technical Features
-- **MCP Server**: Model Context Protocol server for seamless AI integration
-- **Robust Authentication**: Secure Spotify OAuth2 integration with comprehensive scopes
-- **Error Handling**: Built-in retry mechanisms and graceful error handling
-- **Structured Data**: Pydantic models for type-safe data handling
+### 🎧 Music Control
 
-## 🏗️ Architecture
+- Play any song from your Spotify account
+- Create and manage playlists
+- Add songs to playlists by name
+- Get your recent listening history
 
-The project is organized into several key modules:
+### 🤖 AI Magic
 
-```
-src/
-├── my_server.py          # Main MCP server with all tools
-├── musique.py            # Music track management and playback
-├── Playlistlib.py        # Playlist operations and management
-├── spotify_infos.py      # Spotify authentication and configuration
-├── client_mistral.py     # Mistral AI integration
-├── build_custom_playlist.py # AI-powered playlist generation
-├── Genius.py             # Genius API integration for lyrics/artists
-├── Wikipedia.py          # Wikipedia API integration
-└── outdated/             # Legacy code (deprecated)
-```
+- **Smart recommendations**: "Find songs like what I listened to this week"
+- **Custom playlists**: "Make a playlist for studying" or "Songs for a workout"
+- **Music discovery**: AI finds similar tracks you might like
 
-## 🚀 Quick Start
+### 📚 Song Information
 
-### Prerequisites
+- **Lyrics and meanings** from Genius
+- **Artist biographies** from Wikipedia
+- **Song background** and release information
+- **Track details** like popularity and duration
+
+### 🎮 Fun Features
+
+- **Blind test game**: Play 10 seconds of a random song and guess what it is
+- **Music trivia**: Learn interesting facts about songs and artists
+
+## How It Works
+
+The app is built as an **MCP (Model Context Protocol) server** that connects different services:
+
+- **Spotify API**: Controls your music and playlists
+- **Mistral AI**: Finds similar songs and creates smart recommendations
+- **Genius API**: Gets lyrics and song meanings
+- **Wikipedia API**: Provides artist biographies and song background
+
+When you ask for something like "find songs like what I listened to this week", the AI analyzes your recent music and suggests similar tracks.
+
+## Setup (5 minutes)
+
+### What You Need
 
 - Python 3.12+
-- Spotify Developer Account
-- Mistral AI API Key
-- Genius API Token (optional, for enhanced features)
+- Spotify account
+- Mistral AI API key
+- Genius API token (optional)
 
-### Installation
+### Step 1: Get API Keys
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd RoadToMistral
-   ```
+**Spotify:**
 
-2. **Install dependencies**
-   ```bash
-   pip install -e .
-   # or using uv (recommended)
-   uv sync
-   ```
-
-3. **Set up environment variables**
-   Create a `.env` file in the project root:
-   ```env
-   # Spotify Configuration
-   SPOTIPY_CLIENT_ID=your_spotify_client_id
-   SPOTIPY_CLIENT_SECRET=your_spotify_client_secret
-   SPOTIPY_REDIRECT_URI=http://localhost:8080/callback
-   
-   # Mistral AI Configuration
-   MISTRAL_API_KEY=your_mistral_api_key
-   
-   # Genius Configuration (optional)
-   GENIUS_ACCESS_TOKEN=your_genius_token
-   ```
-
-4. **Run the MCP server**
-   ```bash
-   python src/my_server.py
-   ```
-
-## 🎯 Available Tools
-
-### Music Discovery & Management
-- `musiques_derniere_semaine(username)` - Get recently played tracks and AI-generated similar recommendations
-- `getplaylists(limit)` - List your Spotify playlists
-- `tracklist_playlist(name)` - Get detailed track information for a specific playlist
-- `add2playlist(song_query, playlist_query)` - Add songs to playlists with intelligent matching
-
-### Playlist Creation
-- `create_playlist(playlist_name, public, description)` - Create new Spotify playlists
-- `build_custom_playlist.py` - AI-powered playlist generation based on queries
-
-### Music Information
-- `info_song_or_artist(song_title, artist_name)` - Comprehensive song and artist information from multiple sources
-
-### Entertainment
-- `blind_test()` - Interactive music guessing game with random track snippets
-
-## 🔧 Configuration
-
-### Spotify Setup
 1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-2. Create a new app
-3. Set redirect URI to `http://localhost:8080/callback`
-4. Copy Client ID and Client Secret to your `.env` file
+2. Create new app → Copy Client ID & Secret
+3. Set redirect URI to: `http://localhost:8080/callback`
 
-### Mistral AI Setup
-1. Get your API key from [Mistral AI Console](https://console.mistral.ai/)
-2. Add it to your `.env` file
+**Mistral AI:**
 
-### Genius Setup (Optional)
-1. Get your access token from [Genius API](https://genius.com/api-clients)
-2. Add it to your `.env` file
+1. Get API key from [Mistral Console](https://console.mistral.ai/)
 
-## 📖 Usage Examples
+**Genius (optional):**
 
-### Basic Playlist Management
-```python
-# Get your playlists
-playlists = getplaylists(10)
+1. Get token from [Genius API](https://genius.com/api-clients)
 
-# Get tracks from a specific playlist
-tracks = tracklist_playlist("My Favorites")
+### Step 2: Install & Configure
 
-# Add a song to a playlist
-result = add2playlist("Bohemian Rhapsody", "Rock Classics")
+```bash
+# Clone and install
+git clone <repository-url>
+cd RoadToMistral
+pip install -e .
+
+# Create .env file with your keys
+echo "SPOTIPY_CLIENT_ID=your_spotify_client_id" > .env
+echo "SPOTIPY_CLIENT_SECRET=your_spotify_client_secret" >> .env
+echo "SPOTIPY_REDIRECT_URI=http://localhost:8080/callback" >> .env
+echo "MISTRAL_API_KEY=your_mistral_api_key" >> .env
+echo "GENIUS_ACCESS_TOKEN=your_genius_token" >> .env
+
+# Run the server
+python src/my_server.py
 ```
 
-### AI-Powered Music Discovery
-```python
-# Get recent music with AI recommendations
-recent_music = musiques_derniere_semaine("your_username")
+## What You Can Do
 
-# Generate custom playlist
+Once running, you can use these commands:
+
+### 🎵 Music Discovery
+
+- **Get similar songs**: "Find music like what I listened to this week"
+- **Create playlists**: "Make a workout playlist" or "Songs for studying"
+- **Add songs**: "Add Bohemian Rhapsody to my Rock playlist"
+
+### 📋 Playlist Management
+
+- **List playlists**: See all your Spotify playlists
+- **View tracks**: Get all songs in a specific playlist
+- **Create new**: Make new playlists with custom names
+
+### 🎮 Fun & Games
+
+- **Blind test**: Play 10 seconds of a random song and guess what it is
+- **Song info**: Get lyrics, artist biography, and song background
+
+### 📊 Music Data
+
+- **Recent tracks**: See what you've been listening to
+- **Song details**: Popularity, duration, album info
+- **Artist info**: Biographies and background from Wikipedia
+
+## Example Usage
+
+### Get AI Music Recommendations
+
+```python
+# Find songs similar to what you listened to this week
+recent_music = musiques_derniere_semaine("your_username")
+# Returns: ["Bohemian Rhapsody - Queen", "Hotel California - Eagles", ...]
+```
+
+### Create Smart Playlists
+
+```python
+# Generate playlist based on mood/activity
 from build_custom_playlist import get_musics_from_query
 songs = get_musics_from_query("relaxing jazz for studying", 10)
+# AI finds 10 jazz songs perfect for studying
 ```
 
-### Music Information
+### Get Song Information
+
 ```python
-# Get comprehensive song information
+# Get comprehensive info about a song
 info = info_song_or_artist("Bohemian Rhapsody", "Queen")
-print(info)  # Includes Genius lyrics, Wikipedia info, etc.
+# Returns: Lyrics from Genius + Artist bio from Wikipedia + Spotify data
 ```
 
-### Blind Test Game
+### Play Music Games
+
 ```python
-# Start a blind test game
+# Start a blind test
 question = blind_test()
-print(question)  # Play 10 seconds of a random liked track
+# Plays 10 seconds of a random song, asks you to guess
 ```
 
-## 🛠️ Development
+## Troubleshooting
 
-### Code Quality
-The project uses several tools for code quality:
-- **Ruff**: Fast Python linter and formatter
-- **MyPy**: Static type checking
-- **Pre-commit**: Git hooks for code quality
+**"Authentication failed"**: Check your Spotify API keys in `.env`
+**"No playlists found"**: Make sure you have playlists in your Spotify account
+**"AI not working"**: Verify your Mistral API key is correct
 
-### Running Tests
+## For Developers
+
 ```bash
+# Code formatting
+ruff format .
+ruff check .
+
+# Run tests  
 pytest
 ```
 
-### Code Formatting
-```bash
-ruff format .
-ruff check .
-```
+## Privacy & Security
 
-## 🔒 Security & Privacy
-
-- All API keys are stored securely in environment variables
-- Spotify OAuth2 provides secure authentication
-- No sensitive data is logged or stored permanently
-- All API calls use HTTPS with proper timeout handling
-
-## 📝 API Scopes
-
-The application requires the following Spotify scopes:
-- `user-read-playback-state`
-- `user-modify-playback-state`
-- `user-read-currently-playing`
-- `streaming`
-- `playlist-read-private`
-- `playlist-modify-private`
-- `playlist-modify-public`
-- `user-library-read`
-- `user-read-recently-played`
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- **Spotify** for the comprehensive music API
-- **Mistral AI** for powerful language model capabilities
-- **Genius** for rich music metadata and lyrics
-- **Wikipedia** for comprehensive artist and song information
-- **FastMCP** for the Model Context Protocol framework
-
-## 📞 Support
-
-For support, please open an issue in the GitHub repository or contact the maintainer.
-
----
-
-**Made with ❤️ for music lovers and AI enthusiasts**
+- API keys stored in `.env` file (never committed)
+- Spotify OAuth2 for secure authentication
+- No personal data stored permanently
+- All API calls use HTTP
