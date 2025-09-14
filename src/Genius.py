@@ -3,14 +3,7 @@ from dotenv import load_dotenv
 import os, requests
 
 load_dotenv()
-token = os.getenv("GENIUS_ACCESS_TOKEN")
-
-
-from dotenv import load_dotenv
-import os, requests
-
-load_dotenv()
-token = os.getenv("GENIUS_ACCESS_TOKEN")
+token = os.environ["GENIUS_ACCESS_TOKEN"]
 
 
 def genius_song_info(title: str):

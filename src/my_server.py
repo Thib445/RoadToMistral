@@ -12,14 +12,7 @@ from client_mistral import llm_trouve_similaires
 from Wikipedia import wikipedia_artist_info, wikipedia_song_info
 from Genius import genius_formatted_info
 
-mcp = FastMCP("My MCP Server")
-print(
-    f"[MCP boot] spotify_connector starting at {time.strftime('%H:%M:%S')} | file={__file__}",
-    file=sys.stderr,
-)
-
 mcp = FastMCP("Spotify Manager")
-
 
 @mcp.tool
 def musiques_derniere_semaine(username: str) -> list:

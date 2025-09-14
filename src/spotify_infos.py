@@ -8,9 +8,9 @@ from urllib3.util.retry import Retry
 
 load_dotenv()
 
-SPOTIPY_CLIENT_ID = os.getenv("SPOTIPY_CLIENT_ID")
-SPOTIPY_CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET")
-SPOTIPY_REDIRECT_URI = os.getenv("SPOTIPY_REDIRECT_URI")
+SPOTIPY_CLIENT_ID = os.environ["SPOTIPY_CLIENT_ID"]
+SPOTIPY_CLIENT_SECRET = os.environ["SPOTIPY_CLIENT_SECRET"]
+SPOTIPY_REDIRECT_URI = os.environ["SPOTIPY_REDIRECT_URI"]
 
 SCOPES = (
     "ugc-image-upload "
