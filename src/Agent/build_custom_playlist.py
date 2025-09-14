@@ -1,20 +1,23 @@
 from dotenv import load_dotenv
-import os 
+import os
 import json
 from pydantic import BaseModel
 
 from mistralai import Mistral
+
 """_summary_
     Uses an agent to create a new playlist
 """
 load_dotenv()
 api_key = os.getenv("MISTRAL_API_KEY")
 
+
 class Musique(BaseModel):
     titre: str
     artiste: str
     date: str
     genre: str
+
 
 class ListMusique(BaseModel):
     morceaux: list[Musique]
@@ -32,36 +35,32 @@ def get_structured_output(response):
     chat_response = client.chat.parse(
         model="mistral-medium-latest",
         messages=[
-            {
-                "role": "system", 
-                "content": "Extract the music info."
-            },
-            {
-                "role": "user", 
-                "content": response
-            },
+            {"role": "system", "content": "Extract the music info."},
+            {"role": "user", "content": response},
         ],
         response_format=ListMusique,
         max_tokens=512,
-        temperature=0
+        temperature=0,
     )
     return chat_response.choices[0].message.parsed
 
-client =  Mistral(api_key=api_key)
+
+client = Mistral(api_key=api_key)
 
 web_search_tool = {"type": "web_search"}
 
 agent = client.beta.agents.create(
     model="mistral-medium-latest",
-    name = "Custom Playlist Generator",
-    description = "Generates a Spotify playlist based on user mood or activity",
-    instructions = None,
-    tools = [web_search_tool],
-    completion_args={"temperature": 0.2, "max_tokens": 1000}
+    name="Custom Playlist Generator",
+    description="Generates a Spotify playlist based on user mood or activity",
+    instructions=None,
+    tools=[web_search_tool],
+    completion_args={"temperature": 0.2, "max_tokens": 1000},
 )
 
-def get_musics_from_query(query: str, k:int = 10) -> ListMusique:
-    response  = client.beta.conversations.start(
+
+def get_musics_from_query(query: str, k: int = 10) -> ListMusique:
+    response = client.beta.conversations.start(
         agent_id=agent.id,
         inputs=f"Generate a list of {k} songs for the following query: {query}",
     )

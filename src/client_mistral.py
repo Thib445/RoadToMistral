@@ -9,15 +9,14 @@ print(api_key)
 client = Mistral(api_key=api_key)
 
 
-def llm_trouve_similaires(musiques,prompt):
+def llm_trouve_similaires(musiques, prompt):
     chat_response = client.chat.complete(
-    model = "mistral-medium-latest",
-    messages = [
-        {
-            "role": "user",
-            "content": prompt,
-        },
-    ]   
+        model="mistral-medium-latest",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ],
     )
     return chat_response.choices[0].message.content
-

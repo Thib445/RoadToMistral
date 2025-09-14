@@ -1,4 +1,5 @@
 import sys
+
 print(sys.executable)  # Check which Python interpreter is being used
 
 
@@ -16,9 +17,9 @@ prompt = "A calm lo-fi beat with piano and soft rain sounds"
 response = model.generate_content(
     prompt,
     generation_config={
-        "audio_format": "wav",    # wav or mp3
-        "duration_seconds": 30    # length of generated track
-    }
+        "audio_format": "wav",  # wav or mp3
+        "duration_seconds": 30,  # length of generated track
+    },
 )
 
 # 4. Save audio to file
