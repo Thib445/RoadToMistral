@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from musique import Musique
+from musiqueLib import Musique
 from spotify_infos import sp, me  # sp = Spotipy auth; me = current_user
 
 
@@ -76,12 +76,3 @@ def _find_my_playlist_id(query):
         if query.lower() in name and pl.get("owner", {}).get("id") == me["id"]:
             return pl["id"]
     return None
-    
-"""or i in get_playlist_list():
-    if i.name == "Rap lyrique ":
-        print(" jn")
-        i.get_tracks()"""
-
-
-
-

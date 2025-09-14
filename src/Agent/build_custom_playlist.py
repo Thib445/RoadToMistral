@@ -4,7 +4,9 @@ import json
 from pydantic import BaseModel
 
 from mistralai import Mistral
-
+"""_summary_
+    Uses an agent to create a new playlist
+"""
 load_dotenv()
 api_key = os.getenv("MISTRAL_API_KEY")
 
