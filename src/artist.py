@@ -2,7 +2,9 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
 class Artist:
-
+    """_summary_
+    An Artist class to get info from an artist
+    """
     def __init__(self, id, sp=None):
         self.id = id
         self.sp = sp or spotipy.Spotify(auth_manager=SpotifyClientCredentials())
