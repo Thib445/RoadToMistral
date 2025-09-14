@@ -11,6 +11,9 @@ from datetime import datetime, timedelta
 import random
 from client_mistral import llm_trouve_similaires
 
+from Wikipedia import wikipedia_artist_info, wikipedia_song_info
+from Genius import genius_formatted_info
+ 
 mcp = FastMCP("My MCP Server")
 print(f"[MCP boot] spotify_connector starting at {time.strftime('%H:%M:%S')} | file={__file__}", file=sys.stderr)
 
@@ -36,13 +39,16 @@ def musiques_derniere_semaine(username: str) -> list:
     return toutes
 
 @mcp.tool
-def getplaylists(limit):
-    """returns the first playlists of the user. Maximum number returned is equal to limit"""
+def getplaylists(limit: int) -> list:
+    """Get a list of the user's Spotify playlists. Returns the first N playlists where N is the limit parameter. 
+    Each item in the returned list is a playlist name string."""
     return [playlist.name for playlist in get_playlist_list(limit=limit)]
 
 @mcp.tool
-def tracklist_playlist(name: str):
-    "gives the tracklist of the playlist that has the name <name>"
+def tracklist_playlist(name: str) -> list:
+    """Get the tracklist (list of songs) for a specific Spotify playlist by name. 
+    Searches through the user's playlists to find one matching the provided name (case-insensitive).
+    Returns detailed information about each track in the playlist including song title, artist, and other metadata."""
     lists = get_playlist_list()
     for playlist in lists:
         if playlist.name.lower().strip() == name.lower().strip():
@@ -116,6 +122,40 @@ def add2playlist(song_query: str, playlist_query: str, allow_duplicates: bool = 
     sp.playlist_add_items(playlist_id, [track_uri])
     pl = sp.playlist(playlist_id, fields="name,external_urls.spotify")
     return {"status": "added", "playlist_id": playlist_id, "playlist_name": pl["name"], "playlist_url": pl["external_urls"]["spotify"], "track_uri": track_uri}
+
+@mcp.tool
+def info_song_or_artist(song_title: str, artist_name: str) -> str:
+    """Get comprehensive information about a song by combining data from Wikipedia and Genius.
+    Provides detailed song information including lyrics context, artist biography, album details, and general background.
+    Returns formatted information from both sources for a complete overview of the song and artist."""
+    
+    result = f"🎵 **{song_title}** by **{artist_name}**\n\n"
+    
+    # Get Genius information
+    result += genius_formatted_info(song_title, artist_name)
+    
+    # Get Wikipedia information
+    result += wikipedia_artist_info(artist_name) + "\n"
+    result += wikipedia_song_info(song_title, artist_name)
+    
+    return result
+
+@mcp.tool
+def info_song_or_artist(song_title: str, artist_name: str) -> str:
+    """Get comprehensive information about a song by combining data from Wikipedia and Genius.
+    Provides detailed song information including lyrics context, artist biography, album details, and general background.
+    Returns formatted information from both sources for a complete overview of the song and artist."""
+    
+    result = f"🎵 **{song_title}** by **{artist_name}**\n\n"
+    
+    # Get Genius information
+    result += genius_formatted_info(song_title, artist_name)
+    
+    # Get Wikipedia information
+    result += wikipedia_artist_info(artist_name) + "\n"
+    result += wikipedia_song_info(song_title, artist_name)
+    
+    return result
 
 if __name__ == "__main__":
     mcp.run()
