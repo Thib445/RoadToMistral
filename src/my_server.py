@@ -1,7 +1,7 @@
 from fastmcp import FastMCP
 
 from Playlistlib import _find_my_playlist_id, get_playlist_list
-from musique import _find_song_id, random_liked_track, lancer_musique
+from musiqueLib import _find_song_id, random_liked_track, lancer_musique
 from typing import Optional, Dict, Any
 from spotify_infos import sp, me 
 import time, sys
@@ -167,3 +167,4 @@ def info_song_or_artist(song_title: str, artist_name: str) -> str:
 
 if __name__ == "__main__":
     mcp.run()
+    
