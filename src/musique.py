@@ -1,6 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotify_infos import sp, me  # sp = Spotipy auth; me = current_user
+import random
 
 class Musique:
 
@@ -45,3 +46,23 @@ def _find_song_id(query, market = None):
         res = sp.search(q=query, limit=1, type="track", market=market)
         items = res.get("tracks", {}).get("items", []) or []
         return items[0]["id"] if items else None
+
+def random_liked_track():
+    # Récupère les 50 premiers titres likés
+    results = sp.current_user_saved_tracks(limit=50)
+    items = results.get("items", [])
+
+    if not items:
+        return "❌ Pas de titres likés trouvés."
+
+    # Choisit une piste au hasard
+    track = random.choice(items)["track"]
+
+    track_id = track["id"]
+    title = track["name"]
+    artist = track["artists"][0]["name"]
+
+    return f"{title} - {artist} ({track_id})"
+
+def lancer_musique(track_id, position_ms=0):
+    sp.start_playback(uris=[f"spotify:track:{track_id}"], position_ms=position_ms)
