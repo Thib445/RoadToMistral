@@ -162,17 +162,6 @@ question = blind_test()
 **"No playlists found"**: Make sure you have playlists in your Spotify account
 **"AI not working"**: Verify your Mistral API key is correct
 
-## For Developers
-
-```bash
-# Code formatting
-ruff format .
-ruff check .
-
-# Run tests  
-pytest
-```
-
 ## Privacy & Security
 
 - API keys stored in `.env` file (never committed)
