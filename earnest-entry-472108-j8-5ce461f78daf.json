@@ -1,10 +1,4 @@
-MISTRAL_API_KEY=7fMuYv7HMlfzDMyRX1wysmtm6fdDvs1D
-SPOTIPY_CLIENT_ID="490db9f141a045b8a657fb94c2feda0a"
-SPOTIPY_CLIENT_SECRET="dcd3956c990a4fba8c2722382db5ba22"
-SPOTIPY_REDIRECT_URI="https://127.0.0.1:8000/"
-
-# GCS Credentials
-GCS_CREDENTIALS={
+{
   "type": "service_account",
   "project_id": "earnest-entry-472108-j8",
   "private_key_id": "5ce461f78daf0cb16a02705ae73b5c40c64171bd",

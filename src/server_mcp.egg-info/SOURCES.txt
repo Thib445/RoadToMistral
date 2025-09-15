@@ -1,5 +1,6 @@
 README.md
 pyproject.toml
+src/outdated/spotify_connector.py
 src/server_mcp.egg-info/PKG-INFO
 src/server_mcp.egg-info/SOURCES.txt
 src/server_mcp.egg-info/dependency_links.txt

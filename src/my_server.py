@@ -10,11 +10,29 @@ import time, sys
 from datetime import datetime, timedelta
 import random
 from client_mistral import llm_trouve_similaires
+from transformers import AutoProcessor, MusicgenForConditionalGeneration
+import soundfile as sf
+import torch
+import io, base64
+from google.cloud import storage
+from datetime import timedelta
 
-mcp = FastMCP("My MCP Server")
-print(f"[MCP boot] spotify_connector starting at {time.strftime('%H:%M:%S')} | file={__file__}", file=sys.stderr)
 
 mcp = FastMCP("Spotify Manager")
+
+# -------- Cache modèle (Génération de musique)-----------
+MODEL_ID = "facebook/musicgen-small"
+_processor = None
+_model = None
+
+def _load_model_once():
+    global _processor, _model
+    if _processor is None or _model is None:
+        _processor = AutoProcessor.from_pretrained(MODEL_ID)
+        _model = MusicgenForConditionalGeneration.from_pretrained(MODEL_ID)
+        _model.eval().to("cpu")
+
+# -------- Cache modèle (Génération de musique)-----------
 
 
 @mcp.tool
@@ -88,6 +106,89 @@ def add2playlist(song_query: str, playlist_query: str, allow_duplicates: bool = 
     sp.playlist_add_items(playlist_id, [track_uri])
     pl = sp.playlist(playlist_id, fields="name,external_urls.spotify")
     return {"status": "added", "playlist_id": playlist_id, "playlist_name": pl["name"], "playlist_url": pl["external_urls"]["spotify"], "track_uri": track_uri}
+
+
+def upload_base64_to_gcs(b64_data: str, dest_name: str, content_type: str = "application/octet-stream", expires_sec: int = 3600) -> str:
+    """
+    Décode un base64 et l'upload dans GCS.
+    Retourne une URL signée pour télécharger le fichier.
+    """
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(dest_name)
+
+    # décoder le base64 en bytes
+    file_bytes = base64.b64decode(b64_data)
+
+    # upload depuis mémoire
+    blob.upload_from_string(file_bytes, content_type=content_type)
+
+    # générer une URL signée (download direct)
+    url = blob.generate_signed_url(
+        version="v4",
+        expiration=timedelta(seconds=expires_sec),
+        method="GET"
+    )
+    return url
+
+@mcp.tool
+def generate_music(user_prompt: str, seconds: int = 10, guidance_scale: float = 3.0):
+    """
+    Génère un extrait musical avec MusicGen et renvoie un WAV encodé en base64.
+    - user_prompt: description du style (ex: "lofi chill with warm piano")
+    - seconds: durée approx (5-12s recommandé en CPU)
+    - guidance_scale: 2.0–4.0 = contrainte du prompt
+    """
+    try:
+        _load_model_once()
+
+        # approx: ~256 tokens ≈ 5s
+        max_new_tokens = max(128, min(1024, int(51.2 * seconds)))
+
+        inputs = _processor(text=[user_prompt], padding=True, return_tensors="pt")
+        with torch.inference_mode():
+            audio_values = _model.generate(
+                **inputs,
+                do_sample=True,
+                guidance_scale=guidance_scale,
+                max_new_tokens=max_new_tokens
+            )
+
+        wav = audio_values[0, 0].cpu().numpy()
+        sr = _model.config.audio_encoder.sampling_rate
+
+        # Écrire dans un buffer mémoire
+        buffer = io.BytesIO()
+        sf.write(buffer, wav, sr, format="WAV")
+        buffer.seek(0)
+
+        # Encoder en base64
+        b64_audio = base64.b64encode(buffer.read()).decode("utf-8")
+
+        url = upload_base64_to_gcs(b64_audio, "test")
+        print(url)
+        return {
+            "status": "ok",
+            "prompt": user_prompt,
+            "approx_seconds": round(len(wav) / sr, 2),
+            "sampling_rate": sr,
+            "filename": "musicgen_demo.wav",
+            "mimetype": "audio/wav",
+            "data_base64": b64_audio
+        }
+    
+    
+
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
+BUCKET_NAME = "mood2music-uploads"
+
+
+
+
+
 
 if __name__ == "__main__":
     mcp.run()
